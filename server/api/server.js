@@ -8,16 +8,15 @@ import { clerkMiddleware } from '@clerk/express'
 import { clerkWebhooks, stripeWebhooks } from '../controllers/webhooks.js'
 import educatorRouter from '../routes/educatorRoutes.js'
 import courseRouter from '../routes/courseRoute.js'
-
-let isConnected = false
+import serverless from 'serverless-http'
 
 const app = express()
 
 app.use(cors({
     origin: ["http://localhost:5173", "https://lms-mern-mrnu.vercel.app/"],
     credentials: true
-}));
-app.use(express.json());
+}))
+app.use(express.json())
 app.use(clerkMiddleware())
 
 // Webhooks
@@ -32,15 +31,17 @@ app.use('/api/user', express.json(), userRouter)
 // Base Route
 app.get('/', (req, res) => res.send('API Working'))
 
-app.use('*', (req, res) => {
-    res.status(404).json({ message: 'Route not found' })
-})
+app.use('*', (req, res) => res.status(404).json({ message: 'Route not found' }))
 
-export default async function handler(req, res) {
+// DB + Cloudinary once
+let isConnected = false
+app.use(async (req, res, next) => {
     if (!isConnected) {
         await connectDB()
         await connectCloudinary()
         isConnected = true
     }
-    return app(req, res)
-}
+    next()
+})
+
+export default serverless(app)
