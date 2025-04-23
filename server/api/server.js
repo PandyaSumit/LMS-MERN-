@@ -31,6 +31,11 @@ app.use('/api/user', express.json(), userRouter)
 // Base Route
 app.get('/', (req, res) => res.send('API Working'))
 
+app.get('/', (req, res) => {
+    console.log('Root route hit');
+    res.send('API Working')
+})
+
 app.use('*', (req, res) => res.status(404).json({ message: 'Route not found' }))
 
 // DB + Cloudinary once
