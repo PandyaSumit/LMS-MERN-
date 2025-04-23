@@ -24,9 +24,7 @@ export const AppContextProvider = (props) => {
     // Fetch All Courses
     const fetchAllCourses = async () => {
         try {
-
-            const { data } = await axios.get(backendUrl + '/api/course/all');
-
+            const { data } = await axios.get(`${backendUrl}/api/course/al`);
             if (data.success) {
                 setAllCourses(data.courses)
             } else {
@@ -40,29 +38,27 @@ export const AppContextProvider = (props) => {
     }
     // Fetch UserData 
     const fetchUserData = async () => {
-
         try {
-
             if (user.publicMetadata.role === 'educator') {
-                setIsEducator(true)
+                setIsEducator(true);
             }
 
             const token = await getToken();
 
-            const { data } = await axios.get(backendUrl + '/api/user/data',
-                { headers: { Authorization: `Bearer ${token}` } })
-            console.log('data--', data.message)
+            const { data } = await axios.get(`${backendUrl}/api/user/data`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             if (data.success) {
-                setUserData(data.user)
-            } else (
-                toast.error(data.message)
-            )
-
+                setUserData(data.user);
+            } else {
+                toast.error(data.message);
+            }
         } catch (error) {
-            toast.error(error.message)
+            toast.error(error.message);
         }
-
-    }
+    };
 
     // Fetch User Enrolled Courses
     const fetchUserEnrolledCourses = async () => {

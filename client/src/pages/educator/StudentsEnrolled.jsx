@@ -9,7 +9,6 @@ const StudentsEnrolled = () => {
   const { backendUrl, getToken, isEducator } = useContext(AppContext)
 
   const [enrolledStudents, setEnrolledStudents] = useState(null)
-
   const fetchEnrolledStudents = async () => {
     try {
       const token = await getToken()
