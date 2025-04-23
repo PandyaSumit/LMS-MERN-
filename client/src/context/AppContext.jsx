@@ -17,14 +17,12 @@ export const AppContextProvider = (props) => {
     const { user } = useUser()
 
     const [showLogin, setShowLogin] = useState(false)
-    const [isEducator,setIsEducator] = useState(false)
+    const [isEducator, setIsEducator] = useState(false)
     const [allCourses, setAllCourses] = useState([])
     const [userData, setUserData] = useState(null)
     const [enrolledCourses, setEnrolledCourses] = useState([])
-
     // Fetch All Courses
     const fetchAllCourses = async () => {
-
         try {
 
             const { data } = await axios.get(backendUrl + '/api/course/all');
@@ -40,7 +38,6 @@ export const AppContextProvider = (props) => {
         }
 
     }
-
     // Fetch UserData 
     const fetchUserData = async () => {
 
@@ -54,7 +51,7 @@ export const AppContextProvider = (props) => {
 
             const { data } = await axios.get(backendUrl + '/api/user/data',
                 { headers: { Authorization: `Bearer ${token}` } })
-
+            console.log('data--', data.message)
             if (data.success) {
                 setUserData(data.user)
             } else (
@@ -137,7 +134,6 @@ export const AppContextProvider = (props) => {
         fetchAllCourses()
     }, [])
 
-    // Fetch User's Data if User is Logged In
     useEffect(() => {
         if (user) {
             fetchUserData()
@@ -153,9 +149,8 @@ export const AppContextProvider = (props) => {
         enrolledCourses, fetchUserEnrolledCourses,
         calculateChapterTime, calculateCourseDuration,
         calculateRating, calculateNoOfLectures,
-        isEducator,setIsEducator
+        isEducator, setIsEducator
     }
-
     return (
         <AppContext.Provider value={value}>
             {props.children}

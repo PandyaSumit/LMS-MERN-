@@ -131,6 +131,7 @@ const AddCourse = () => {
 
     } catch (error) {
       toast.error(error.message)
+      
     }
 
   };
