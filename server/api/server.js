@@ -1,5 +1,3 @@
-// api/server.js
-
 import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
@@ -10,7 +8,6 @@ import { clerkMiddleware } from '@clerk/express'
 import { clerkWebhooks, stripeWebhooks } from '../controllers/webhooks.js'
 import educatorRouter from '../routes/educatorRoutes.js'
 import courseRouter from '../routes/courseRoute.js'
-import { createServer } from 'http' // Optional for advanced use
 
 let isConnected = false
 
